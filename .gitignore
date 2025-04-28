@@ -1,0 +1,18 @@
+Commands
+
+vim-cmd vmsvc/getallvms (Check the VMs ID)
+vim-cmd vmsvc/tools.cancelinstall <vm.id> (To cancel the upgrade process of vmware tool)
+
+# List VMs with ISO connected
+Get-VM | Get-CDDrive | Where-Object { $_.ConnectionState.Connected -eq $true } | Select-Object Parent, IsoPath, ConnectionState
+
+# Manually Disconnect ISO for a specific VM
+# Change 'Your-VM-Name' to the name of your VM
+Get-VM -Name "Your-VM-Name" | Get-CDDrive | Set-CDDrive -NoMedia -Confirm:$false
+
+# Disconnect ISO for VMs automatically
+# WARNING: Only run if you are sure!
+Get-VM | Get-CDDrive | Where-Object { $_.ConnectionState.Connected -eq $true } | Set-CDDrive -NoMedia -Confirm:$false
+
+ls /vmfs/volumes/(path of your file)
+esxcli software vib update -d /vmfs/volumes/CH-A-Slot2_LS/ISO/ESXi670-202403001.zip
